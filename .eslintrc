@@ -1,0 +1,6 @@
+{
+    "extends": "eslint",
+    "env": {
+        "browser": true
+    }
+}

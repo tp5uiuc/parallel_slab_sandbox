@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta name="description" content="A minimal (setting with coupled )elastic solid--fluid interactions">
+  <!-- <meta name="description" content="A minimal (setting with coupled )elastic solid--fluid interactions"> -->
+  <meta name="keywords" content="CFD, fluids, elasticity, hyperelasticity, benchmark">
+  <meta name="author" content="Tejaswin Parthasarathy">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test widget</title>
+  <link rel="stylesheet" href="parallel_slab_sandbox.css">
+</head>
+
+<body>
+  <h1>
+    Solutions of a minimal (hyper)elastohydrodynamic problem
+    <!-- A minimal setting with coupled elastic solid--fluid interactions -->
+    <!---Shear flow benchmark for testing elastic solid--fluid coupling algorithms--->
+  </h1>
+
+  <hr>
+
+  <div style="padding:20px; margin-left:auto; margin-right:auto; text-align:center;">
+    <div class="row">
+
+      <div class="column">
+        <div class="row">
+          <button id="initButton" class="animate border border-black p-1 mr-2 bg-yellow-300"><span id="loadingIndicator" class="inline-block"></span><span>Initialize</span></button>
+          <!---<input id="stepNumber" type="number" value="100" aria-label="number of steps" placeholder="number of steps" class="border border-black p-1 mr-2">--->
+          <!---<button id="reset" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Reset</button>--->
+  <!--         <div style="margin-left:auto; margin-right:auto; text-align:center;"> -->
+          <input type="checkbox" id="enableAnimate"><span style="font-size:20px;">Animate?</span></checkbox>
+  <!--         </div>
+   -->
+         </div>
+      </div>
+
+      <div class="double_width_column">
+        <div class="row">
+          <button id="start" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Start</button>
+          <button id="pause" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Pause</button>
+          <button id="reset" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Reset</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div>
+    <div class="row">
+      <div class="column">
+        <div style="margin-left:auto; margin-right:auto; text-align:center;">
+          Reynolds number = <span id="reynoldsReadout"></span>
+          <br>
+          <div class="row">
+            <span class ="column" style="font-size:12px;"> More Viscous </span>
+            <span class="column"><input type="range" min="1" max="100" step="1" value="10"
+              id="reynoldsSlider"></span class="column">
+              <span class ="column" style="font-size:12px;">Less Viscous</span>
+            </div>
+            <br>
+            Ericksen number = <span id="ericksenReadout"></span>
+            <br>
+            <div class="row">
+              <span class ="column" style="font-size:12px;"> More Stiff </span>
+              <span class="column"><input type="range" min="1" max="100" step="1" value="10"
+                id="ericksenSlider"></span class="column">
+                <span class ="column" style="font-size:12px;">Less Stiff</span>
+              </div>
+              <br>
+            </div>
+
+            <!---oninput="showSpeed();" onchange="showSpeed();"--->
+            <h3 style="text-align:center;">
+              Additional parameters
+            </h3>
+
+            <div style="margin-left:auto; margin-right:auto; text-align:center;">
+
+              <!---Solid zone occupancy--->
+              Solid zone occupancy = <span id="solidZoneReadout"></span>
+              <br>
+              <div class="row">
+                <span class ="column" style="font-size:12px;"> Less occupied </span>
+                <span class="column">
+                  <input type="range" min="0" max="100" step="5" value="50"
+                  id="solidZoneSlider">
+                </span>
+                <span class ="column" style="font-size:12px;"> More occupied </span>
+              </div>
+              <br>
+
+              <!---Density--->
+              Density of solid / fluid = <span id="densityReadout"></span>
+              <br>
+              <div class="row">
+                <span class ="column" style="font-size:12px;"> Less dense solid </span>
+                <span class="column">
+                  <input type="range" min="1" max="100" step="1" value="10"
+                  id="densitySlider">
+                </span>
+                <span class ="column" style="font-size:12px;"> More dense solid </span>
+              </div>
+              <br>
+
+              <!---Viscosity--->
+              Viscosity of solid / fluid = <span id="viscosityReadout"></span>
+              <br>
+              <div class="row">
+                <span class ="column" style="font-size:12px;"> Less viscous </span>
+                <span class="column">
+                  <input type="range" min="0" max="100" step="1" value="10"
+                  id="viscositySlider">
+                </span>
+                <span class ="column" style="font-size:12px;"> More viscous </span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="double_width_column">
+            <div class="row">
+              <div class="quad_width_column">
+                <figure id="plot_div">
+                </figure>
+                </div>
+              <div class="column">
+                <img src="static/just_colorbar.png" alt="Colobar" style="width:60px;height:360px;margin-left: auto;margin-right: auto;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!--     <footer>
+      Copyright © 2021 MattiaLab
+    </footer>
+ -->
+  <script type="text/javascript" id="MathJax-script"
+    src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'>
+  </script>
+  <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script type="text/javascript" src="parallel_slab_sandbox.js"></script>
+  <noscript>
+    <p>Oops! This website requires a JavaScript-enabled browser.</p>
+  </noscript>
+
+</body>
+
+</html>
