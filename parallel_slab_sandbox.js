@@ -18,6 +18,98 @@ class ScriptLoader {
     }
 }
 
+
+class DefaultHarmonicOne {
+    static defaultRe() {
+        return 10;
+    }
+    static defaultEr() {
+        return 13;
+    }
+    static defaultSolidZoneOccupancy() {
+        return 50;
+    }
+    static defaultDensityRatio() {
+        return 10;
+    }
+    static defaultViscosityRatio() {
+        return 0;
+    }
+}
+
+class DefaultHarmonicTwo {
+    static defaultRe() {
+        return 10;
+    }
+    static defaultEr() {
+        return 43;
+    }
+    static defaultSolidZoneOccupancy() {
+        return 50;
+    }
+    static defaultDensityRatio() {
+        return 10;
+    }
+    static defaultViscosityRatio() {
+        return 0;
+    }
+}
+
+class DefaultHarmonicThree {
+    static defaultRe() {
+        return 10;
+    }
+    static defaultEr() {
+        return 93;
+    }
+    static defaultSolidZoneOccupancy() {
+        return 50;
+    }
+    static defaultDensityRatio() {
+        return 10;
+    }
+    static defaultViscosityRatio() {
+        return 0;
+    }
+}
+
+class DefaultHarmonicZero {
+    static defaultRe() {
+        return 10;
+    }
+    static defaultEr() {
+        return 2;
+    }
+    static defaultSolidZoneOccupancy() {
+        return 50;
+    }
+    static defaultDensityRatio() {
+        return 10;
+    }
+    static defaultViscosityRatio() {
+        return 0;
+    }
+}
+
+class DefaultTypical {
+    static defaultRe() {
+        return 10;
+    }
+    static defaultEr() {
+        return 10;
+    }
+    static defaultSolidZoneOccupancy() {
+        return 50;
+    }
+    static defaultDensityRatio() {
+        return 10;
+    }
+    static defaultViscosityRatio() {
+        return 1;
+    }
+}
+
+
 // async function to fetch the raw content of the gist
 /**
  * @param filename
@@ -181,7 +273,11 @@ function initPlot(xs, ys, xf, yf) {
  *
  */
 async function init() {
-    loadingIndicator.classList.add("mr-2", "progressAnimate");
+    initButton.classList.add("button--loading");
+    //loadingIndicator.classList.add("mr-2", "progressAnimate");
+    const loader = new ScriptLoader(
+        "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js"
+    );
     await loader.load();
     await loadPyodide(
         { indexURL: "https://cdn.jsdelivr.net/pyodide/v0.17.0/full/" }
@@ -228,10 +324,13 @@ async function init() {
     console.log("Numpy, Scipy is now available ");
 
     // reset styles of buttons
-    loadingIndicator.classList.remove("mr-2", "progressAnimate");
-    startButton.removeAttribute("disabled");
-    pauseButton.removeAttribute("disabled");
-    resetButton.removeAttribute("disabled");
+    //loadingIndicator.classList.remove("mr-2", "progressAnimate");
+    // startButton.removeAttribute("disabled");
+    // pauseButton.removeAttribute("disabled");
+    // resetButton.removeAttribute("disabled");
+    simulateButton.removeAttribute("disabled");
+    archetypeSelection.removeAttribute("disabled");
+    initButton.classList.remove("button--loading");
 }
 
 /* Animation handlers*/
@@ -511,7 +610,7 @@ function viscosityRatio() {
  *
  */
 function isAnimated() {
-    return animateCheckBox.checked;
+    return false;
 }
 
 /* Display */
@@ -556,13 +655,16 @@ const loader =
 
 // select buttons and input field
 const initButton = document.querySelector("#initButton");
-const startButton = document.querySelector("#start");
-const pauseButton = document.querySelector("#pause");
-const resetButton = document.querySelector("#reset");
-const animateCheckBox = document.querySelector("#enableAnimate");
+// const startButton = document.querySelector("#start");
+// const pauseButton = document.querySelector("#pause");
+// const resetButton = document.querySelector("#reset");
+//const initButton = document.querySelector("#initButton");
+const simulateButton = document.querySelector("#simulateButton");
+const archetypeSelection = document.querySelector("#archetypeSelection");
+//const animateCheckBox = document.querySelector("#enableAnimate");
 
 // loader
-const loadingIndicator = document.querySelector("#loadingIndicator");
+//const loadingIndicator = document.querySelector("#loadingIndicator");
 
 // sliders
 const reynoldsSlider = document.querySelector("#reynoldsSlider");
@@ -638,9 +740,61 @@ initButton.addEventListener("click", init, { once: true });
 
 // button for run python code and animation
 // note that we need to use parseInt here since the input value is string
-startButton.addEventListener("click", startSimulator);
-pauseButton.addEventListener("click", pauseAnimation);
-resetButton.addEventListener("click", resetAnimation);
+simulateButton.addEventListener("click", startSimulator);
+// startButton.addEventListener("click", startSimulator);
+// pauseButton.addEventListener("click", pauseAnimation);
+// resetButton.addEventListener("click", resetAnimation);
+
+
+function defaultSimulationParameters() {
+
+    // set default here
+    // choose case from the drop down menu
+    const defaults = (() => {
+        switch (archetypeSelection.value) {
+            case "h1":
+                return DefaultHarmonicOne;
+            case "h2":
+                return DefaultHarmonicTwo;
+            case "h3":
+                return DefaultHarmonicThree;
+            case "h0":
+                return DefaultHarmonicZero;
+            case "tp":
+                return DefaultTypical;
+
+        // case 'test':
+        //   return curvatureParamIDs[2];
+        }
+    })();
+
+    // switch (.value) {
+    // case 'none':
+    //   return new Map();
+    // case 'sin':
+    //   return new Map([
+    //     [ 'lift_amp', parseFloat(liftSinAmplitude()) ],
+    //     [ 'lift_wave_number', parseFloat(liftSinWaveNumber()) ],
+    //     [ 'phase', parseFloat(liftSinPhase()) ]
+    //   ]);
+    // case 'exp':
+    //   return new Map([ [ 'lift_a_value', parseFloat(liftExpCoeff()) ] ]);
+    // }
+
+    // sliders
+    reynoldsSlider.value = defaults.defaultRe();
+    ericksenSlider.value = defaults.defaultEr();
+    solidZoneSlider.value = defaults.defaultSolidZoneOccupancy();
+    densitySlider.value = defaults.defaultDensityRatio();
+    viscositySlider.value = defaults.defaultViscosityRatio();
+    // liftSinWaveNumberSlider.value = defaults.defaultLiftSinWaveNumber();
+    // liftSinPhaseSlider.value = defaults.defaultLiftSinPhase();
+    // liftExpCoeffSlider.value = defaults.defaultLiftExpCoeff();
+
+    // showStaticParameterInfo();
+    showParameterInfo();
+}
+
 
 /**
  *
@@ -671,14 +825,38 @@ function addListeners() {
         p[0].addEventListener("input", p[1]);
         p[0].addEventListener("change", p[1]);
     });
+
+    const selection_pairs = [
+        // [curvatureSelection, reset_and_(showCurvatureInfo)],
+        // [liftSelection, reset_and_(showLiftInfo)],
+        [archetypeSelection, reset_and_(defaultSimulationParameters)]
+    ];
+
+    selection_pairs.forEach(p => {
+        p[0].addEventListener("change", p[1]);
+    });
 }
+
+function showParameterInfo() {
+    showReynoldsNumber();
+    showEricksenNumber();
+    showSolidZoneOccupancy();
+    showDensityRatio();
+    showViscosityRatio();
+}
+
+
+
 
 // perform the gist fetching
 const fileFetchPromise = fetchFile("parallel_slab_sandbox.py");
-
+// initButton.addEventListener("click", init, { once: true });
 // placeholder plot
-placeholderPlot();
 addListeners();
+MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+defaultSimulationParameters();
+placeholderPlot();
+
 
 // display at first go
 showReynoldsNumber();
