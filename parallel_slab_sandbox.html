@@ -92,7 +92,7 @@
     <div class="row">
       <div class="column">
         <div style="margin-left:auto; margin-right:auto; text-align:center;">
-          Reynolds number <span> \( Re\) = </span> <span id="reynoldsReadout"></span>
+          <div class="tooltip"> Reynolds number <span class="tooltiptext"> tooltiptext here </span> </div> <span> \( Re\) = </span> <span id="reynoldsReadout"></span>
           <br>
           <div class="row">
             <span class ="column" style="font-size:12px;"> More Viscous </span>
@@ -101,7 +101,10 @@
               <span class ="column" style="font-size:12px;">Less Viscous</span>
             </div>
             <br>
-            Ericksen number <span> \(Er\) = </span><span id="ericksenReadout"></span>
+            <div class="tooltip"> Ericksen number 
+              <span class="tooltiptext"> tooltiptext here</span> 
+            </div>
+             <span> \(Er\) = </span><span id="ericksenReadout"></span>
             <br>
             <div class="row">
               <span class ="column" style="font-size:12px;"> More Stiff </span>
@@ -117,10 +120,14 @@
               Additional parameters
             </h3>
 
-            <div style="margin-left:auto; margin-right:auto; text-align:center;">
-
+            <div style="margin-left:auto; margin-right:auto; text-align:center; white-space:nowrap">
+              <!-- display: inline-block;  -->
               <!---Solid zone occupancy--->
-              Solid zone occupancy <span> \( Ls / Lf\) = </span> <span id="solidZoneReadout"></span>
+              <div class="tooltip"> Solid zone occupancy 
+                <span class="tooltiptext" style="white-space: normal;"> tooltiptext here</span> 
+              </div>
+              
+              <span> \( L_s / L_f\) = </span> <span id="solidZoneReadout"></span>
               <br>
               <div class="row">
                 <span class ="column" style="font-size:12px;"> Less occupied </span>
@@ -133,7 +140,10 @@
               <br>
 
               <!---Density--->
-              Density of solid / fluid &nbsp; &nbsp; <span> \( \rho s/\rho f\) = </span><span id="densityReadout"></span>
+              <div class="tooltip"> Density of solid / fluid 
+                <span class="tooltiptext" style="white-space: normal;"> tooltiptext here</span> 
+              </div>
+               <span> \( \rho_s/\rho_f\) = </span><span id="densityReadout"></span>
               <br>
               <div class="row">
                 <span class ="column" style="font-size:12px;"> Less dense solid </span>
@@ -146,7 +156,10 @@
               <br>
 
               <!---Viscosity--->
-              Viscosity of solid / fluid <span> \( \mu s/\mu f\) = </span>  <span id="viscosityReadout"></span>
+              <div class="tooltip"> Viscosity of solid / fluid
+                <span class="tooltiptext" style="white-space: normal;"> tooltiptext here</span> 
+              </div>
+               <span> \( \nu_s/\nu_f\) = </span>  <span id="viscosityReadout"></span>
               <br>
               <div class="row">
                 <span class ="column" style="font-size:12px;"> Less viscous </span>
