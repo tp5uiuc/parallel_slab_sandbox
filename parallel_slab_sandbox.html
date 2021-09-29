@@ -23,9 +23,8 @@
 
   <hr>
   <p style="font-size: 16px; text-align: justify;">
-    Detailed explaination: 
-    A sandbox to play around with a minimal elastohydrodynamic problem, 
-    i.e. containing interaction between a fluid and a soft solid.
+    The page provides an interactive sandbox for gaining intuition of flow--structure interaction in a minimal setup
+    where an oscillatory wall (top, at \( y / L  = 1\)) drives a fluid (above the dashed line) which in turn affects an hyperelastic solid (below the dashed line). This setup, while minimal, is dynamically rich, which you can visualize by accessing a drop-down menu for choosing behavioral archetypes (such as seeing harmonics in the solid). If you want more fine-level control, you can utilize sliders to change dynamical parameters. To access the physical meaning of these parameters, please hover over the underlined text.
   </p>
   <hr>
   <div style="padding:20px; margin-left:auto; margin-right:auto; text-align:center;">
@@ -92,7 +91,7 @@
     <div class="row">
       <div class="column">
         <div style="margin-left:auto; margin-right:auto; text-align:center;">
-          <div class="tooltip"> Reynolds number <span class="tooltiptext"> tooltiptext here </span> </div> <span> \( Re\) = </span> <span id="reynoldsReadout"></span>
+          <div class="tooltip"> Reynolds number <span class="tooltiptext"> Ratio of inertial to viscous forces in the fluid zone </span> </div> <span> \( Re\) = </span> <span id="reynoldsReadout"></span>
           <br>
           <div class="row">
             <span class ="column" style="font-size:12px;"> More Viscous </span>
@@ -102,7 +101,7 @@
             </div>
             <br>
             <div class="tooltip"> Ericksen number 
-              <span class="tooltiptext"> tooltiptext here</span> 
+              <span class="tooltiptext"> Ratio of viscous to elastic forces in the solid zone </span>
             </div>
              <span> \(Er\) = </span><span id="ericksenReadout"></span>
             <br>
@@ -123,41 +122,41 @@
             <div style="margin-left:auto; margin-right:auto; text-align:center; white-space:nowrap">
               <!-- display: inline-block;  -->
               <!---Solid zone occupancy--->
-              <div class="tooltip"> Solid zone occupancy 
-                <span class="tooltiptext" style="white-space: normal;"> tooltiptext here</span> 
+              <div class="tooltip"> Solid occupancy
+                <span class="tooltiptext" style="white-space: normal;"> Ratio of area occupied by the solid phase to the total (solid + fluid) area </span>
               </div>
               
               <span> \( L_s / L_f\) = </span> <span id="solidZoneReadout"></span>
               <br>
               <div class="row">
-                <span class ="column" style="font-size:12px;"> Less occupied </span>
+                <span class ="column" style="font-size:12px;"> Less occupied</span>
                 <span class="column">
                   <input type="range" min="0" max="100" step="5" value="50"
                   id="solidZoneSlider">
                 </span>
-                <span class ="column" style="font-size:12px;"> More occupied </span>
+                <span class ="column" style="font-size:12px;"> More occupied</span>
               </div>
               <br>
 
               <!---Density--->
-              <div class="tooltip"> Density of solid / fluid 
-                <span class="tooltiptext" style="white-space: normal;"> tooltiptext here</span> 
+              <div class="tooltip"> Density ratio
+                <span class="tooltiptext" style="white-space: normal;"> Ratio of solid to fluid density </span>
               </div>
                <span> \( \rho_s/\rho_f\) = </span><span id="densityReadout"></span>
               <br>
               <div class="row">
-                <span class ="column" style="font-size:12px;"> Less dense solid </span>
+                <span class ="column" style="font-size:12px;"> Lighter solid </span>
                 <span class="column">
                   <input type="range" min="1" max="100" step="1" value="10"
                   id="densitySlider">
                 </span>
-                <span class ="column" style="font-size:12px;"> More dense solid </span>
+                <span class ="column" style="font-size:12px;"> Denser solid </span>
               </div>
               <br>
 
               <!---Viscosity--->
-              <div class="tooltip"> Viscosity of solid / fluid
-                <span class="tooltiptext" style="white-space: normal;"> tooltiptext here</span> 
+              <div class="tooltip"> Viscosity ratio
+                <span class="tooltiptext" style="white-space: normal;"> Ratio of solid to fluid viscosity  </span>
               </div>
                <span> \( \nu_s/\nu_f\) = </span>  <span id="viscosityReadout"></span>
               <br>
