@@ -14,6 +14,7 @@
 </head>
 
 <body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG.js" defer></script>
   <h1>
     Solutions of a minimal (hyper)elastohydrodynamic problem
     <!-- A minimal setting with coupled elastic solid--fluid interactions -->
@@ -21,29 +22,66 @@
   </h1>
 
   <hr>
-
+  <p style="font-size: 16px; text-align: justify;">
+    Detailed explaination: 
+    A sandbox to play around with a minimal elastohydrodynamic problem, 
+    i.e. containing interaction between a fluid and a soft solid.
+  </p>
+  <hr>
   <div style="padding:20px; margin-left:auto; margin-right:auto; text-align:center;">
     <div class="row">
 
       <div class="column">
         <div class="row">
-          <button id="initButton" class="animate border border-black p-1 mr-2 bg-yellow-300"><span id="loadingIndicator" class="inline-block"></span><span>Initialize</span></button>
+          <button type="button" id="initButton" class="loading_button"><!--span id="loadingIndicator" class="inline-block></span--><span class="loading_button_text">Initialize engine</span></button>
           <!---<input id="stepNumber" type="number" value="100" aria-label="number of steps" placeholder="number of steps" class="border border-black p-1 mr-2">--->
           <!---<button id="reset" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Reset</button>--->
-  <!--         <div style="margin-left:auto; margin-right:auto; text-align:center;"> -->
-          <input type="checkbox" id="enableAnimate"><span style="font-size:20px;">Animate?</span></checkbox>
+  <!--         <div style="margin-left:auto; margin-right:auto; text-align:center;"> animate border border-black p-1 mr-2 bg-yellow-300-->
+          <!-- <input type="checkbox" id="enableAnimate"><span style="font-size:15px;">Animate?</span></checkbox> -->
   <!--         </div>
    -->
          </div>
+         <div class="row">
+          <span style="font-size:14px;">Initialization takes 10s to load</span>
+        </div>
       </div>
 
       <div class="double_width_column">
         <div class="row">
-          <button id="start" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Start</button>
-          <button id="pause" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Pause</button>
-          <button id="reset" disabled class="border border-black p-1 opacity-50 cursor-not-allowed mr-2">Reset</button>
+          <button id="simulateButton" type="button" disabled class="loading_button">
+            <span class="loading_button_text">Simulate!</span>
+          </button>
+        </div>
+        <div class="row">
+          <span style="font-size:14px;">Only need to simulate once:)</span>
+          <!-- First simulation takes longer -->
         </div>
       </div>
+
+      <div class="column">
+        <div class="row">
+          <select disabled id="archetypeSelection" class="big_button">
+            <option value="h1">Harmonic 1</option>
+            <option value="h2">Harmonic 2</option>
+            <option value="h3">Harmonic 3</option>
+            <option value="h0">Harmonic 0</option>
+            <option value="tp">Typical</option>
+            <!-- <option value="test">Test</option> -->
+          </select>
+        </div>
+        <div class="row">
+          <span style="font-size:14px;">Choose any archetype</span>
+        </div>
+      </div>
+
+      <!-- <div class="double_width_column">
+        <div class="row">
+          <button id="start" disabled class="loading_button">Start</button>
+          <button id="pause" disabled class="loading_button">Pause</button>
+          <class = border border-black p-1 opacity-50 cursor-not-allowed mr-2 
+          <button id="reset" disabled class="loading_button">Reset</button> 
+        </div>
+      </div> -->
 
     </div>
 
@@ -54,7 +92,7 @@
     <div class="row">
       <div class="column">
         <div style="margin-left:auto; margin-right:auto; text-align:center;">
-          Reynolds number = <span id="reynoldsReadout"></span>
+          Reynolds number <span> \( Re\) = </span> <span id="reynoldsReadout"></span>
           <br>
           <div class="row">
             <span class ="column" style="font-size:12px;"> More Viscous </span>
@@ -63,7 +101,7 @@
               <span class ="column" style="font-size:12px;">Less Viscous</span>
             </div>
             <br>
-            Ericksen number = <span id="ericksenReadout"></span>
+            Ericksen number <span> \(Er\) = </span><span id="ericksenReadout"></span>
             <br>
             <div class="row">
               <span class ="column" style="font-size:12px;"> More Stiff </span>
@@ -82,7 +120,7 @@
             <div style="margin-left:auto; margin-right:auto; text-align:center;">
 
               <!---Solid zone occupancy--->
-              Solid zone occupancy = <span id="solidZoneReadout"></span>
+              Solid zone occupancy <span> \( Ls / Lf\) = </span> <span id="solidZoneReadout"></span>
               <br>
               <div class="row">
                 <span class ="column" style="font-size:12px;"> Less occupied </span>
@@ -95,7 +133,7 @@
               <br>
 
               <!---Density--->
-              Density of solid / fluid = <span id="densityReadout"></span>
+              Density of solid / fluid &nbsp; &nbsp; <span> \( \rho s/\rho f\) = </span><span id="densityReadout"></span>
               <br>
               <div class="row">
                 <span class ="column" style="font-size:12px;"> Less dense solid </span>
@@ -108,7 +146,7 @@
               <br>
 
               <!---Viscosity--->
-              Viscosity of solid / fluid = <span id="viscosityReadout"></span>
+              Viscosity of solid / fluid <span> \( \mu s/\mu f\) = </span>  <span id="viscosityReadout"></span>
               <br>
               <div class="row">
                 <span class ="column" style="font-size:12px;"> Less viscous </span>
@@ -130,7 +168,7 @@
                 </figure>
                 </div>
               <div class="column">
-                <img src="static/just_colorbar.png" alt="Colobar" style="width:60px;height:360px;margin-left: auto;margin-right: auto;">
+                <img src="static/just_colorbar.png" alt="Colorbar" style="width:60px;height:360px;margin-left: auto;margin-right: auto;">
               </div>
             </div>
           </div>
@@ -141,6 +179,26 @@
       Copyright © 2021 MattiaLab
     </footer>
  -->
+ <hr>
+
+    <footer>
+      <p style="font-size:14px; text-align:center;">
+        This is a beta version of the sandbox and we welcome your <a href="mailto:tp5@illinois.edu?subject = Feedback on Snake Sandbox"> feedbacks </a>.
+      </p>
+
+      <p style="font-size:14px; text-align:center;">
+        Designed by <a href="https://parthas1.github.io/" target="_blank" rel="noopener">Tejaswin Parthasarathy</a>,
+        and powered by <a href="https://pyodide.org/en/stable/" target="_blank" rel="noopener">Pyodide</a>.
+        For best experience, please use Chrome or Firefox.
+      </p>
+
+<!--       <p style="font-size:14px; text-align:center;">
+      </p>
+ -->
+      <p style="font-size:14px; text-align:center;">
+        Copyright © 2021 <a href="https://parthas1.github.io/" target="_blank" rel="noopener">Tejaswin Parthasarathy</a>, <a href="https://mattia-lab.com/" target="_blank" rel="noopener">GazzolaLab</a>.
+      </p>
+    </footer>
   <script type="text/javascript" id="MathJax-script"
     src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'>
   </script>

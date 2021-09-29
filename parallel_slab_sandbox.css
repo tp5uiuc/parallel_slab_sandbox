@@ -46,6 +46,13 @@ h1 {
   /*flex-basis: 100%;*/
   flex: 4;
 }
+.hide{
+  visibility: hidden;
+}
+
+.visible{
+  visibility: visible;
+}
 
 .button {
   background-color: #4CAF50;
@@ -58,3 +65,58 @@ h1 {
   font-size: 16px;
 }
 
+.big_button {
+  position: relative;
+  padding: 8px 16px;
+/*    background: #3379F6;*/
+/*    border: none;
+*/
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.loading_button {
+  position: relative;
+  padding: 8px 16px;
+/*    background: #3379F6;*/
+/*    border: none;
+*/
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.loading_button:active {
+  background: #3379F6;
+}
+
+.loading_button_text{
+transition: all 0.2s;
+}
+
+@keyframes button-loading-spinner {
+  from {
+      transform: rotate(0turn);
+  }
+
+  to {
+      transform: rotate(1turn);
+  }
+}
+
+.button--loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 4px solid transparent;
+  border-top-color: #000000;
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
+}
