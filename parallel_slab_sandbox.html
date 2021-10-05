@@ -81,16 +81,31 @@
           <button id="reset" disabled class="loading_button">Reset</button> 
         </div>
       </div> -->
+     
+      </div>
 
-    </div>
-
+    <div class="para">
+      <span class="para_inline">
+        \(\delta_f\) = 
+        <span id="deltaFReadout"></span>
+      </span>
+      
+      <span class="para_inline">
+        \(\delta_s\) = 
+        <span id="deltaSReadout"></span>
+      </span>
+      
+      <span class="para_inline">
+        \(\lambda\) = 
+        <span id="lambdaReadout"></span>
+      </span>
   </div>
-
+  
 
   <div>
-    <div class="row">
+    <div class="row" style="margin-top: -20px;">
       <div class="column">
-        <div style="margin-left:auto; margin-right:auto; text-align:center;">
+        <div style="margin-left:-20px; margin-right:-20px; text-align:center; white-space: unset">
           <div class="tooltip"> Reynolds number <span class="tooltiptext"> Ratio of inertial to viscous forces in the fluid zone </span> </div> <span> \( Re\) = </span> <span id="reynoldsReadout"></span>
           <br>
           <div class="row">
@@ -119,16 +134,16 @@
               Additional parameters
             </h3>
 
-            <div style="margin-left:auto; margin-right:auto; text-align:center; white-space:nowrap">
+            <div style="margin-left: -20px; margin-right: -20px; text-align:center; white-space: normal; ">
               <!-- display: inline-block;  -->
               <!---Solid zone occupancy--->
               <div class="tooltip"> Solid occupancy
-                <span class="tooltiptext" style="white-space: normal;"> Ratio of area occupied by the solid phase to the total (solid + fluid) area </span>
+                <span class="tooltiptext"> Ratio of area occupied by the solid phase to the total (solid + fluid) area </span>
               </div>
               
               <span> \( L_s / L_f\) = </span> <span id="solidZoneReadout"></span>
               <br>
-              <div class="row">
+              <div class="row" style = "text-align:center;">
                 <span class ="column" style="font-size:12px;"> Less occupied</span>
                 <span class="column">
                   <input type="range" min="0" max="100" step="5" value="50"
@@ -173,19 +188,21 @@
 
           </div>
 
-          <div class="double_width_column">
+          <div class="double_width_column" style="margin-right: 0px; margin-left: 0px;">
             <div class="row">
-              <div class="quad_width_column">
+              <div class="double_width_column" style="margin-right: -30px; margin-left: -20px;">
+                <!-- style="margin-right: 0; margin-left: 0; -->
                 <figure id="plot_div">
                 </figure>
                 </div>
-              <div class="column">
-                <img src="static/just_colorbar.png" alt="Colorbar" style="width:60px;height:360px;margin-left: auto;margin-right: auto;">
+              <div class="half_width_columne" style="flex: 0; margin-right: -40px; margin-left: -10px;">
+                <img src="static/just_colorbar.png" alt="Colorbar" style="width:60px;height:360px;margin-left:auto;margin-right: auto;">
               </div>
             </div>
           </div>
         </div>
       </div>
+      
 
 <!--     <footer>
       Copyright © 2021 MattiaLab

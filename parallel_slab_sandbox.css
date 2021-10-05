@@ -33,6 +33,20 @@ h1 {
   flex: 1;
 }
 
+.para {
+  display:inherit;
+  width: auto;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  text-align: right;
+  justify-content: right;
+  align-items: right;
+}
+
+.para_inline {
+  margin-right: 75px;
+}
+
 .double_width_column {
   display: flex;
   flex-direction: column;
@@ -40,12 +54,14 @@ h1 {
   flex: 2;
 }
 
-.quad_width_column {
+.half_width_column {
   display: flex;
   flex-direction: column;
   /*flex-basis: 100%;*/
-  flex: 4;
+  flex: 0.5;
+  margin-left: 0px;
 }
+
 .hide{
   visibility: hidden;
 }
