@@ -649,6 +649,30 @@ function showViscosityRatio() {
     viscosityReadout.innerHTML = viscosityRatio();
 }
 
+/**
+ * function to display the delta F readout
+ * value 1.8 is temporary for testing
+ */
+function showDeltaFNumber() {
+    deltaFReadout.innerHTML = 1.8;
+}
+
+/**
+ * function to display the delta S readout;
+ * value 1.4 is temporary for testing
+ */
+function showDeltaSNumber() {
+    deltaSReadout.innerHTML = 1.4;
+}
+
+/**
+ * function to display the delta lambda readout;
+ * value 1.9 is temporary for testing
+ */
+function showLambdaNumber() {
+    lambdaReadout.innerHTML = 1.9;
+}
+
 // load pyodide
 const loader =
     new ScriptLoader("https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js");
@@ -679,6 +703,9 @@ const ericksenReadout = document.querySelector("#ericksenReadout");
 const solidZoneReadout = document.querySelector("#solidZoneReadout");
 const densityReadout = document.querySelector("#densityReadout");
 const viscosityReadout = document.querySelector("#viscosityReadout");
+const deltaFReadout = document.querySelector('#deltaFReadout');
+const deltaSReadout = document.querySelector('#deltaSReadout');
+const lambdaReadout = document.querySelector('#lambdaReadout');
 
 // build up config
 /**
@@ -843,6 +870,9 @@ function showParameterInfo() {
     showSolidZoneOccupancy();
     showDensityRatio();
     showViscosityRatio();
+    showDeltaFNumber();
+    showDeltaSNumber();
+    showLambdaNumber();
 }
 
 
@@ -864,6 +894,9 @@ showEricksenNumber();
 showDensityRatio();
 showViscosityRatio();
 showSolidZoneOccupancy();
+showDeltaFNumber();
+showDeltaSNumber();
+showLambdaNumber();
 
 // globals
 let requestID;
