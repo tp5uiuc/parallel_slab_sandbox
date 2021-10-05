@@ -18,7 +18,7 @@ class ScriptLoader {
     }
 }
 
-
+/* Defaults */
 class DefaultHarmonicOne {
     static defaultRe() {
         return 10;
@@ -109,6 +109,29 @@ class DefaultTypical {
     }
 }
 
+/* Constants for the simulator that the user cannot change */
+class ConstantParameters {
+    static shear_rate(){
+        return 1.0 / Math.PI;
+    }
+
+    static L(){
+        return 2.0;
+    }
+
+    static omega() {
+        return Math.PI;
+    }
+
+    static n_modes(){
+        return 16;
+    }
+
+    static rho_f(){
+        return 1.0;
+    }
+
+}
 
 // async function to fetch the raw content of the gist
 /**
@@ -609,6 +632,38 @@ function viscosityRatio() {
 /**
  *
  */
+function LfOverLs(){
+    return (1 - solidZoneRatio())/ solidZoneRatio();
+}
+
+/**
+ *
+ */
+function deltaFluid(){
+    return round(Math.sqrt(ConstantParameters.shear_rate() / reynoldsNumber()), 2);
+}
+
+/**
+ *
+ */
+function deltaSolid(){
+    // log stuff to console for now
+    return round(LfOverLs() * Math.sqrt(viscosityRatio()) * deltaFluid(), 2);
+}
+
+/**
+ *
+ */
+function lambdaSolid(){
+    return round(LfOverLs() * Math.sqrt(ConstantParameters.shear_rate() * ConstantParameters.shear_rate() / densityRatio() /
+                              reynoldsNumber() / ericksenNumber()), 2);
+
+}
+
+
+/**
+ *
+ */
 function isAnimated() {
     return false;
 }
@@ -651,26 +706,23 @@ function showViscosityRatio() {
 
 /**
  * function to display the delta F readout
- * value 1.8 is temporary for testing
  */
-function showDeltaFNumber() {
-    deltaFReadout.innerHTML = 1.8;
+function showDeltaF() {
+    deltaFReadout.innerHTML = deltaFluid();
 }
 
 /**
  * function to display the delta S readout;
- * value 1.4 is temporary for testing
  */
-function showDeltaSNumber() {
-    deltaSReadout.innerHTML = 1.4;
+function showDeltaS() {
+    deltaSReadout.innerHTML = deltaSolid();
 }
 
 /**
  * function to display the delta lambda readout;
- * value 1.9 is temporary for testing
  */
-function showLambdaNumber() {
-    lambdaReadout.innerHTML = 1.9;
+function showLambda() {
+    lambdaReadout.innerHTML = lambdaSolid();
 }
 
 // load pyodide
@@ -716,31 +768,29 @@ function buildConfig() {
     // ratios are always solid()/fluid()
 
     // shear rate
-    const shear_rate = 1.0 / Math.PI;
+    const shear_rate = ConstantParameters.shear_rate();
 
     // length of domain
-    const L = 2.0;
+    const L = ConstantParameters.L();
 
     // length of soldi
     const L_s = solidZoneRatio() * 0.5 * L;
     const L_f = 0.5 * L - L_s;
 
     // n_modes
-    const n_modes = 16;
-    const rho_f = 1.0;
+    const n_modes = ConstantParameters.n_modes();
+    const rho_f = ConstantParameters.rho_f();
     const rho_s = densityRatio() * rho_f;
 
     // d
-    const omega = Math.PI;
+    const omega = ConstantParameters.omega();
     const mu_f = rho_f * shear_rate * omega * L_f * L_f / reynoldsNumber();
     const mu_s = rho_s * mu_f * viscosityRatio() / rho_f;
 
     // log stuff to console for now
-    const delta_f = Math.sqrt(shear_rate / reynoldsNumber());
-    const delta_s = (L_f / L_s) * Math.sqrt(viscosityRatio()) * delta_f;
-    const lambda =
-      (L_f / L_s) * Math.sqrt(shear_rate * shear_rate / densityRatio() /
-                              reynoldsNumber() / ericksenNumber());
+    const delta_f = deltaFluid();
+    const delta_s = deltaSolid();
+    const lambda = lambdaSolid();
 
     console.log("delta_f : ", delta_f);
     console.log("delta_s : ", delta_s);
@@ -795,28 +845,12 @@ function defaultSimulationParameters() {
         }
     })();
 
-    // switch (.value) {
-    // case 'none':
-    //   return new Map();
-    // case 'sin':
-    //   return new Map([
-    //     [ 'lift_amp', parseFloat(liftSinAmplitude()) ],
-    //     [ 'lift_wave_number', parseFloat(liftSinWaveNumber()) ],
-    //     [ 'phase', parseFloat(liftSinPhase()) ]
-    //   ]);
-    // case 'exp':
-    //   return new Map([ [ 'lift_a_value', parseFloat(liftExpCoeff()) ] ]);
-    // }
-
     // sliders
     reynoldsSlider.value = defaults.defaultRe();
     ericksenSlider.value = defaults.defaultEr();
     solidZoneSlider.value = defaults.defaultSolidZoneOccupancy();
     densitySlider.value = defaults.defaultDensityRatio();
     viscositySlider.value = defaults.defaultViscosityRatio();
-    // liftSinWaveNumberSlider.value = defaults.defaultLiftSinWaveNumber();
-    // liftSinPhaseSlider.value = defaults.defaultLiftSinPhase();
-    // liftExpCoeffSlider.value = defaults.defaultLiftExpCoeff();
 
     // showStaticParameterInfo();
     showParameterInfo();
@@ -831,21 +865,21 @@ function addListeners() {
     /**
      * @param fn
      */
-    function reset_and_(fn) {
+    function reset_and_(...fns) {
 
         // return a closure
         return () => {
-            fn();
+            fns.forEach(f => f());
             restartSimulator();
         };
     }
 
     const slider_pairs = [
-        [ericksenSlider, reset_and_(showEricksenNumber)],
-        [reynoldsSlider, reset_and_(showReynoldsNumber)],
-        [solidZoneSlider, reset_and_(showSolidZoneOccupancy)],
-        [viscositySlider, reset_and_(showViscosityRatio)],
-        [densitySlider, reset_and_(showDensityRatio)]
+        [ericksenSlider, reset_and_(showEricksenNumber, showDiagnostics)],
+        [reynoldsSlider, reset_and_(showReynoldsNumber, showDiagnostics)],
+        [solidZoneSlider, reset_and_(showSolidZoneOccupancy, showDiagnostics)],
+        [viscositySlider, reset_and_(showViscosityRatio, showDiagnostics)],
+        [densitySlider, reset_and_(showDensityRatio, showDiagnostics)]
     ];
 
     slider_pairs.forEach(p => {
@@ -864,18 +898,20 @@ function addListeners() {
     });
 }
 
+function showDiagnostics(){
+    showDeltaF();
+    showDeltaS();
+    showLambda();
+}
+
 function showParameterInfo() {
     showReynoldsNumber();
     showEricksenNumber();
     showSolidZoneOccupancy();
     showDensityRatio();
     showViscosityRatio();
-    showDeltaFNumber();
-    showDeltaSNumber();
-    showLambdaNumber();
+    showDiagnostics();
 }
-
-
 
 
 // perform the gist fetching
@@ -889,14 +925,7 @@ placeholderPlot();
 
 
 // display at first go
-showReynoldsNumber();
-showEricksenNumber();
-showDensityRatio();
-showViscosityRatio();
-showSolidZoneOccupancy();
-showDeltaFNumber();
-showDeltaSNumber();
-showLambdaNumber();
+showParameterInfo();
 
 // globals
 let requestID;
